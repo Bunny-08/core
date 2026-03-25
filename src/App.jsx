@@ -18,6 +18,7 @@ import TasksView from './components/TasksView';
 import CalendarView from './components/CalendarView';
 import SettingsView from './components/SettingsView';
 import ProjectsView from './components/ProjectsView';
+import AdminView from './components/AdminView';
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
