@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, MoreVertical, Users, Calendar, CheckCircle2, Clock, AlertCircle, Bell, Search } from 'lucide-react';
+import { Briefcase, MoreVertical, Calendar, CheckCircle2, Clock, AlertCircle, Bell, Search } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function ProjectsView({ projects, onNewProject, onUpdateProject }) {
@@ -44,8 +44,11 @@ export default function ProjectsView({ projects, onNewProject, onUpdateProject }
       <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold mb-2 dark:text-white">Projects</h2>
-          <p className="text-gray-500 dark:text-gray-400">Overview of all active and completed initiatives.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            Overview of all active and completed initiatives.
+          </p>
         </div>
+
         <button 
           onClick={onNewProject}
           className="px-4 py-2 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 transition-all shadow-sm flex items-center gap-2"
@@ -69,18 +72,23 @@ export default function ProjectsView({ projects, onNewProject, onUpdateProject }
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredProjects.map((project) => {
           const status = getStatusStyles(project.status);
+
           return (
             <motion.div 
               key={project.id} 
               layout
-              animate={project.status === 'Completed' ? { 
-                scale: [1, 1.02, 1],
-                boxShadow: [
-                  "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-                  "0 0 20px 0 rgba(16, 185, 129, 0.2)",
-                  "0 1px 2px 0 rgb(0 0 0 / 0.05)"
-                ]
-              } : {}}
+              animate={
+                project.status === 'Completed'
+                  ? {
+                      scale: [1, 1.02, 1],
+                      boxShadow: [
+                        "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+                        "0 0 20px 0 rgba(16, 185, 129, 0.2)",
+                        "0 1px 2px 0 rgb(0 0 0 / 0.05)"
+                      ]
+                    }
+                  : {}
+              }
               transition={{ duration: 0.6 }}
               className={`bg-white p-6 rounded-2xl border border-[#E5E7EB] dark:border-gray-800 shadow-sm hover:shadow-md transition-all group relative overflow-hidden ${status.border}`}
             >
@@ -89,16 +97,23 @@ export default function ProjectsView({ projects, onNewProject, onUpdateProject }
                   <div className="w-12 h-12 bg-orange-50 dark:bg-orange-950/30 rounded-xl flex items-center justify-center text-orange-600">
                     <Briefcase size={24} />
                   </div>
+
                   <div>
-                    <h3 className="font-bold text-lg text-gray-900 group-hover:text-orange-600 transition-colors">{project.name}</h3>
-                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">{project.client}</p>
+                    <h3 className="font-bold text-lg text-gray-900 group-hover:text-orange-600 transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+                      {project.client}
+                    </p>
                   </div>
                 </div>
+
                 <div className="flex items-center gap-2">
                   <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${status.classes}`}>
                     {status.icon}
                     {project.status}
                   </div>
+
                   <button className="p-2 text-gray-400 hover:bg-white dark:hover:bg-gray-800 rounded-lg">
                     <MoreVertical size={18} />
                   </button>
@@ -108,8 +123,11 @@ export default function ProjectsView({ projects, onNewProject, onUpdateProject }
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Progress</span>
-                  <span className="text-xs font-bold text-orange-600">{project.progress}%</span>
+                  <span className="text-xs font-bold text-orange-600">
+                    {project.progress}%
+                  </span>
                 </div>
+
                 <div className="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-orange-500 transition-all duration-1000" 
@@ -122,23 +140,34 @@ export default function ProjectsView({ projects, onNewProject, onUpdateProject }
                 <div className="flex items-center gap-4">
                   <div className="flex -space-x-2">
                     {project.team.map((member, i) => (
-                      <div key={i} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-[10px] font-bold text-gray-600 dark:text-gray-400">
+                      <div 
+                        key={i} 
+                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-[10px] font-bold text-gray-600 dark:text-gray-400"
+                      >
                         {member}
                       </div>
                     ))}
+
                     <div className="w-8 h-8 rounded-full bg-orange-50 dark:bg-orange-950/30 border-2 border-white dark:border-gray-900 flex items-center justify-center text-[10px] font-bold text-orange-600">
                       +2
                     </div>
                   </div>
+
                   <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
                     <Calendar size={14} />
                     {project.dueDate}
                   </div>
+
                   <div className="flex items-center gap-2 ml-4">
                     <Bell size={14} className="text-gray-400" />
+
                     <select 
                       value={project.reminderDaysBefore || 0}
-                      onChange={(e) => onUpdateProject(project.id, { reminderDaysBefore: parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        onUpdateProject(project.id, {
+                          reminderDaysBefore: parseInt(e.target.value)
+                        })
+                      }
                       className="text-[10px] bg-transparent border-none focus:ring-0 text-gray-500 dark:text-gray-400 cursor-pointer hover:text-orange-600 transition-colors"
                     >
                       <option value={0}>No Reminder</option>
